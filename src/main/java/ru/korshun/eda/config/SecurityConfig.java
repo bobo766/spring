@@ -15,8 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.korshun.eda.security.JwtAuthenticationEntryPoint;
 import ru.korshun.eda.security.JwtAuthenticationFilter;
-
-import javax.sql.DataSource;
+import ru.korshun.eda.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -28,8 +27,8 @@ import javax.sql.DataSource;
 public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
-    private final DataSource dataSource;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -42,9 +41,10 @@ public class SecurityConfig
         return super.authenticationManagerBean();
     }
 
-    public SecurityConfig(DataSource dataSource, JwtAuthenticationEntryPoint authenticationEntryPoint) {
-        this.dataSource = dataSource;
+    public SecurityConfig(JwtAuthenticationEntryPoint authenticationEntryPoint,
+                          CustomUserDetailsService customUserDetailsService) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -55,8 +55,7 @@ public class SecurityConfig
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .jdbcAuthentication()
-                .dataSource(dataSource)
+                .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
