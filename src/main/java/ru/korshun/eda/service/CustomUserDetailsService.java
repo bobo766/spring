@@ -38,7 +38,7 @@ public class CustomUserDetailsService
     }
 
     @Transactional
-    public UserDetails loadUserById(Long id) {
+    public UserDetails loadUserById(int id) {
         User user = userRepository.findById(id);
 
         if(user == null) {

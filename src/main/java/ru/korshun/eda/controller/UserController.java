@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public BaseResponse<?> getUserName(@PathVariable Long id) {
+    public BaseResponse<?> getUserName(@PathVariable int id) {
         User user = mUserRepository.findById(id);
         if(user != null) {
             return new BaseResponse<>(HttpStatus.OK, null, user);

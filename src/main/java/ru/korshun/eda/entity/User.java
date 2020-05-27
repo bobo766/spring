@@ -17,7 +17,7 @@ public class User
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank
     @Column(name = "login")
@@ -44,7 +44,7 @@ public class User
 //        this.name = name;
 //    }
 
-    private User(Long id, String name, String login, String password,
+    private User(int id, String name, String login, String password,
                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = name;
@@ -66,7 +66,7 @@ public class User
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
