@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.UserRepository;
 
@@ -33,6 +34,8 @@ public class CustomUserDetailsService
             logger.error("User not found with email {}", login);
             throw new UsernameNotFoundException("User not found with login: " + login);
         }
+
+        System.out.println((user.getRoles()).getRole());
 
         return User.create(user);
     }

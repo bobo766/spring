@@ -32,6 +32,10 @@ public class User
     @Column(name = "name")
     private String username;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_role", referencedColumnName = "id")
+    private Role roles;
+
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -44,13 +48,12 @@ public class User
 //        this.name = name;
 //    }
 
-    private User(int id, String name, String login, String password,
-                          Collection<? extends GrantedAuthority> authorities) {
+    private User(int id, String name, String login, String password, Role role) {
         this.id = id;
         this.username = name;
         this.login = login;
         this.password = password;
-        this.authorities = authorities;
+        this.roles = role;
     }
 
     public static User create(User user) {
@@ -60,7 +63,7 @@ public class User
                 user.getUsername(),
                 user.getLogin(),
                 user.getPassword(),
-                null
+                user.getRoles()
         );
 
     }
@@ -82,6 +85,10 @@ public class User
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public Role getRoles() {
+        return roles;
     }
 
     @Override
