@@ -1,4 +1,4 @@
-package ru.korshun.eda.security;
+package ru.korshun.eda.tokenData;
 
 import io.jsonwebtoken.*;
 import org.slf4j.LoggerFactory;

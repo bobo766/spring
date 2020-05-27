@@ -1,4 +1,4 @@
-package ru.korshun.eda.security;
+package ru.korshun.eda.tokenData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package ru.korshun.eda.security;
+package ru.korshun.eda.tokenData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;

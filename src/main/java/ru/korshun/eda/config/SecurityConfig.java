@@ -13,8 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.korshun.eda.security.JwtAuthenticationEntryPoint;
-import ru.korshun.eda.security.JwtAuthenticationFilter;
+import ru.korshun.eda.tokenData.JwtAuthenticationEntryPoint;
+import ru.korshun.eda.tokenData.JwtAuthenticationFilter;
 import ru.korshun.eda.service.CustomUserDetailsService;
 
 @Configuration

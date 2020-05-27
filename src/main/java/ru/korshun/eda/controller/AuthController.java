@@ -14,8 +14,8 @@ import ru.korshun.eda.repository.UserRepository;
 import ru.korshun.eda.requests.LoginRequest;
 import ru.korshun.eda.response.BaseResponse;
 import ru.korshun.eda.response.data.LoginData;
-import ru.korshun.eda.security.JwtAuthenticationEntryPoint;
-import ru.korshun.eda.security.JwtTokenProvider;
+import ru.korshun.eda.tokenData.JwtAuthenticationEntryPoint;
+import ru.korshun.eda.tokenData.JwtTokenProvider;
 import ru.korshun.eda.utils.Functions;
 
 import javax.validation.Valid;
