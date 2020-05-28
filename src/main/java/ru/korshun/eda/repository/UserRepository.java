@@ -6,7 +6,7 @@ import ru.korshun.eda.entity.User;
 
 @Repository
 public interface UserRepository
-    extends JpaRepository<User, Integer> {
+    extends JpaRepository<User, Long> {
 
     User findByLogin(String login);
     User findById(int id);

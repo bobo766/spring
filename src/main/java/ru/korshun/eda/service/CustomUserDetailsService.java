@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.korshun.eda.entity.Role;
+import ru.korshun.eda.UserPrincipal;
 import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.UserRepository;
 
@@ -35,9 +35,9 @@ public class CustomUserDetailsService
             throw new UsernameNotFoundException("User not found with login: " + login);
         }
 
-        System.out.println((user.getRoles()).getRole());
+//        System.out.println((user.getRoles()).getAuthority());
 
-        return User.create(user);
+        return UserPrincipal.create(user);
     }
 
     @Transactional
@@ -49,6 +49,6 @@ public class CustomUserDetailsService
             throw new UsernameNotFoundException("User not found with id: " + id);
         }
 
-        return User.create(user);
+        return UserPrincipal.create(user);
     }
 }

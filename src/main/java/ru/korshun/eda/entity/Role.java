@@ -1,12 +1,16 @@
 package ru.korshun.eda.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name="roles")
-public class Role {
+public class Role
+        implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +20,18 @@ public class Role {
     private String role;
 
     @OneToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Collection<User> users;
 
     public int getId() {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public Collection<User> getUsers() {
+        return users;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    @Override
+    public String getAuthority() {
+        return role;
     }
 }
