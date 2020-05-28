@@ -35,7 +35,6 @@ public class CustomUserDetails
     public static CustomUserDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority((user.getRoles()).getAuthority()));
-//        authorities.add(new SimpleGrantedAuthority(USER_ROLE));
 
         return new CustomUserDetails(
                 user.getId(),

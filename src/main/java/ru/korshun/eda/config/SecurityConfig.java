@@ -72,8 +72,8 @@ public class SecurityConfig
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/api/**").hasRole("Admin")
+//                .and()
+//                .authorizeRequests().antMatchers("/api/**").hasRole("Admin")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

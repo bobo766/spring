@@ -38,12 +38,6 @@ public class User {
     public User() {
     }
 
-//    public User(@NotBlank String login, @NotBlank String password, @NotBlank String name) {
-//        this.login = login;
-//        this.password = password;
-//        this.name = name;
-//    }
-
     public User(int id, String name, String login, String password, Role role) {
         this.id = id;
         this.username = name;

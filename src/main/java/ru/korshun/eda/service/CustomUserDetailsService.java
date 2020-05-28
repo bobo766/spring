@@ -37,11 +37,11 @@ public class CustomUserDetailsService
 
 //        System.out.println((user.getRoles()).getAuthority());
 
-        CustomUserDetails userPrincipal = CustomUserDetails.create(user);
+        CustomUserDetails userDetails = CustomUserDetails.create(user);
 
-        System.out.println(userPrincipal.getAuthorities());
+//        System.out.println(userDetails.getAuthorities());
 
-        return userPrincipal;
+        return userDetails;
     }
 
     @Transactional
