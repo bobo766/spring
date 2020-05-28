@@ -27,7 +27,7 @@ import ru.korshun.eda.service.CustomUserDetailsService;
 public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
-    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    final JwtAuthenticationEntryPoint authenticationEntryPoint;
     final CustomUserDetailsService customUserDetailsService;
 
     @Bean

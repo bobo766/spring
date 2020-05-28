@@ -32,9 +32,6 @@ public class User {
     @JoinColumn(name = "id_role", referencedColumnName = "id")
     private Role roles;
 
-    @Transient
-    private Collection<? extends GrantedAuthority> authorities;
-
     public User() {
     }
 
