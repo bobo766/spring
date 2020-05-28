@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank
     @Email
@@ -44,7 +44,7 @@ public class User {
 //        this.name = name;
 //    }
 
-    public User(Long id, String name, String login, String password, Role role) {
+    public User(int id, String name, String login, String password, Role role) {
         this.id = id;
         this.username = name;
         this.login = login;
@@ -53,7 +53,7 @@ public class User {
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 

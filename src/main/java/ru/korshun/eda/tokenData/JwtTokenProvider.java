@@ -11,7 +11,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 import org.slf4j.Logger;
-import ru.korshun.eda.UserPrincipal;
+import ru.korshun.eda.CustomUserDetails;
 
 @Component
 public class JwtTokenProvider {
@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
         Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
 

@@ -1,6 +1,5 @@
 package ru.korshun.eda;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,10 +7,10 @@ import ru.korshun.eda.entity.User;
 
 import java.util.*;
 
-public class UserPrincipal
+public class CustomUserDetails
         implements UserDetails {
 
-    private final Long id;
+    private final int id;
 
     private final String name;
 
@@ -23,8 +22,8 @@ public class UserPrincipal
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    private UserPrincipal(Long id, String name, String login, String password,
-                          Collection<? extends GrantedAuthority> authorities) {
+    private CustomUserDetails(int id, String name, String login, String password,
+                              Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.username = null;
@@ -33,12 +32,12 @@ public class UserPrincipal
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user) {
+    public static CustomUserDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority((user.getRoles()).getAuthority()));
 //        authorities.add(new SimpleGrantedAuthority(USER_ROLE));
 
-        return new UserPrincipal(
+        return new CustomUserDetails(
                 user.getId(),
                 user.getUsername(),
                 user.getLogin(),
@@ -47,7 +46,7 @@ public class UserPrincipal
         );
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -98,7 +97,7 @@ public class UserPrincipal
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserPrincipal that = (UserPrincipal) o;
+        CustomUserDetails that = (CustomUserDetails) o;
         return Objects.equals(id, that.id);
     }
 
