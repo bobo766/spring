@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.korshun.eda.entity.Ajax;
 import ru.korshun.eda.repository.AjaxRepository;
 import ru.korshun.eda.response.BaseResponse;
-import ru.korshun.eda.tokenData.JwtAuthenticationEntryPoint;
-import ru.korshun.eda.utils.Functions;
 
 import java.util.List;
 

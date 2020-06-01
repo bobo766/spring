@@ -2,7 +2,7 @@ package ru.korshun.eda.requests;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class SignInRequest {
 
     @NotBlank
     private String login;

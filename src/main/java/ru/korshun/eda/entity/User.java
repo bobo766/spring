@@ -28,20 +28,18 @@ public class User {
     private String username;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_role", referencedColumnName = "id")
+    @OneToOne(targetEntity = Role.class)
+    @JoinColumn(name = "id_role")
     private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Collection<Ajax> ajax;
 
-
     public User() {
     }
 
-    public User(int id, String name, String login, String password, Role role) {
-        this.id = id;
+    public User(String name, String login, String password, Role role) {
         this.username = name;
         this.login = login;
         this.password = password;
@@ -59,6 +57,10 @@ public class User {
 
     public String getLogin() {
         return login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {

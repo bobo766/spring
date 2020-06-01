@@ -1,5 +1,6 @@
 package ru.korshun.eda.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -19,8 +20,16 @@ public class Role
     @NotBlank
     private String role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Collection<User> users;
+
+    public Role() {
+    }
+
+    public Role(@NotBlank String role) {
+        this.role = role;
+    }
 
     public int getId() {
         return id;
@@ -33,9 +42,6 @@ public class Role
     @Override
     public String getAuthority() {
         return role;
-    }
-
-    public Role() {
     }
 
 }
