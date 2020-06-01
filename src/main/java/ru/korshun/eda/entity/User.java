@@ -1,7 +1,6 @@
 package ru.korshun.eda.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -20,6 +19,7 @@ public class User {
     @Email
     private String login;
 
+    @JsonIgnore
     @NotBlank
     private String password;
 
@@ -30,7 +30,12 @@ public class User {
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_role", referencedColumnName = "id")
-    private Role roles;
+    private Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Collection<Ajax> ajax;
+
 
     public User() {
     }
@@ -40,7 +45,7 @@ public class User {
         this.username = name;
         this.login = login;
         this.password = password;
-        this.roles = role;
+        this.role = role;
     }
 
 
@@ -60,8 +65,8 @@ public class User {
         return password;
     }
 
-    public Role getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
 }

@@ -63,20 +63,18 @@ public class SecurityConfig
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                .and()
-                .csrf().disable()
+                .and().csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                .sessionManagement()
+                .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .and().authorizeRequests().antMatchers("/auth/**").permitAll()
+                .and().authorizeRequests().antMatchers("/ajax/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/**").permitAll()
 //                .and()
-//                .authorizeRequests().antMatchers("/api/**").hasRole("Admin")
+//                .authorizeRequests().antMatchers("/api/**").hasAuthority("Admin")
                 .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 }

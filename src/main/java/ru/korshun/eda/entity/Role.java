@@ -19,7 +19,7 @@ public class Role
     @NotBlank
     private String role;
 
-    @OneToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
     private Collection<User> users;
 
     public int getId() {
@@ -34,4 +34,8 @@ public class Role
     public String getAuthority() {
         return role;
     }
+
+    public Role() {
+    }
+
 }

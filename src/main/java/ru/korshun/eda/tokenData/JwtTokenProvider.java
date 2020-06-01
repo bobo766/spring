@@ -24,6 +24,8 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
+    private int jwtUserId = 0;
+
     public String generateToken(Authentication authentication) {
         CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
@@ -41,7 +43,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    int getUserIdFromJWT(String token) {
+    public int getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
@@ -63,5 +65,13 @@ public class JwtTokenProvider {
             logger.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    public int getJwtUserId() {
+        return jwtUserId;
+    }
+
+    public void setJwtUserId(int jwtUserId) {
+        this.jwtUserId = jwtUserId;
     }
 }

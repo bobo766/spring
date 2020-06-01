@@ -18,6 +18,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter
         extends OncePerRequestFilter {
 
+    private final String JWT_TAG = "jwtsowa";
+
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -34,6 +36,7 @@ public class JwtAuthenticationFilter
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 
                 int userId = tokenProvider.getUserIdFromJWT(jwt);
+                tokenProvider.setJwtUserId(userId);
 
                 UserDetails userDetails = customUserDetailsService.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authentication =
@@ -52,8 +55,8 @@ public class JwtAuthenticationFilter
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JWT_TAG)) {
+            return bearerToken.substring(JWT_TAG.length());
         }
         return null;
     }

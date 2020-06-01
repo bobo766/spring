@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.UserRepository;
 import ru.korshun.eda.requests.LoginRequest;
 import ru.korshun.eda.response.BaseResponse;
@@ -25,11 +26,8 @@ import javax.validation.Valid;
 public class AuthController {
 
     final AuthenticationManager authenticationManager;
-
     final UserRepository userRepository;
-
     final PasswordEncoder passwordEncoder;
-
     final JwtTokenProvider tokenProvider;
 
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
@@ -41,9 +39,18 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public BaseResponse<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public BaseResponse<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+
+//        System.out.println("authenticateUser");
+
+        User user = userRepository.findByLogin(loginRequest.getLogin());
+
+        if(user == null) {
+            return new BaseResponse<>(HttpStatus.NOT_FOUND, "User not found", null);
+        }
+
         Functions
-                .getLogger(JwtAuthenticationEntryPoint.class)
+                .getLogger(AuthController.class)
                 .info("Query /auth/signin with login {}, and pass {}",
                         loginRequest.getLogin(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
@@ -56,11 +63,11 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Functions
-                .getLogger(JwtAuthenticationEntryPoint.class)
+                .getLogger(AuthController.class)
                 .info("User {} login successfully", loginRequest.getLogin());
 
         return new BaseResponse<>(HttpStatus.OK, null,
-                new LoginData(tokenProvider.generateToken(authentication)));
+                new LoginData(user.getId(), tokenProvider.generateToken(authentication)));
     }
 
 }
