@@ -17,8 +17,8 @@ public interface UserRepository
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO users (login, password, name, id_role) " +
-            "SELECT ?1, ?2, ?3, id FROM roles WHERE role=?4", nativeQuery = true)
-    void addUser(String login, String password, String name, String role);
+    @Query(value = "INSERT INTO users (login, password, name, phone, id_role) " +
+            "SELECT ?1, ?2, ?3, ?4, id FROM roles WHERE role=?5", nativeQuery = true)
+    void addUser(String login, String password, String name, String phone, String role);
 
 }

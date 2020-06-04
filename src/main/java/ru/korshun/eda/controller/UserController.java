@@ -61,7 +61,7 @@ public class UserController {
 //        System.out.println("Token ID: " + tokenProvider.getJwtUserId() + ", insert ID: " + insertLocationRequest.getId());
 
 //        if(tokenProvider.getJwtUserId() != insertLocationRequest.getId()) {
-//            return new BaseResponse<>(HttpStatus.BAD_REQUEST,"Wrong data", null);
+//            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
 //        }
 
         if(mInsertRepository.insertLocation(

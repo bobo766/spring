@@ -6,12 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
-import java.util.Set;
+
 
 @Entity
 @Table(name="roles")
 public class Role
         implements GrantedAuthority {
+
+    public static final String ADMIN = "Admin";
+    public static final String OPERATOR = "Operator";
+    public static final String GBR = "GBR";
+    public static final String USER = "User";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +36,13 @@ public class Role
         this.role = role;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Collection<User> getUsers() {
-        return users;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public Collection<User> getUsers() {
+//        return users;
+//    }
 
     @Override
     public String getAuthority() {

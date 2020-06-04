@@ -16,7 +16,7 @@ import ru.korshun.eda.repository.UserRepository;
 import ru.korshun.eda.requests.SignInRequest;
 import ru.korshun.eda.requests.SignUpRequest;
 import ru.korshun.eda.response.BaseResponse;
-import ru.korshun.eda.response.data.SignInData;
+import ru.korshun.eda.response.data.SignInDataResponse;
 import ru.korshun.eda.tokenData.JwtTokenProvider;
 import ru.korshun.eda.utils.Functions;
 
@@ -68,7 +68,8 @@ public class AuthController {
                 .info("User {} login successfully", signInRequest.getLogin());
 
         return new BaseResponse<>(HttpStatus.OK, null,
-                new SignInData(user.getId(), tokenProvider.generateToken(authentication)));
+                new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication, user.getRole()),
+                        user.getRole().getAuthority()));
     }
 
 
@@ -81,12 +82,12 @@ public class AuthController {
 
         // Creating user's account
         User user = new User(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPassword(),
-                new Role(signUpRequest.getRole()));
+                signUpRequest.getPhone(), new Role(signUpRequest.getRole()));
 
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        userRepository.addUser(signUpRequest.getEmail(), user.getPassword(),
-                signUpRequest.getName(), signUpRequest.getRole());
+        userRepository.addUser(signUpRequest.getEmail(), user.getPassword(), signUpRequest.getName(),
+                signUpRequest.getPhone(), signUpRequest.getRole());
 //        userRepository.save(user);
 
         return new BaseResponse<>(HttpStatus.OK, null, null);

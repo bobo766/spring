@@ -3,7 +3,7 @@ package ru.korshun.eda.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="coordinates")
+@Table(name="coordinates_alarm")
 public class Ajax {
 
     @Id

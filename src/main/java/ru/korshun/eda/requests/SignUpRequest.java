@@ -22,6 +22,10 @@ public class SignUpRequest {
     private String password;
 
     @NotBlank
+    @Size(min = 10, max = 10)
+    private String phone;
+
+    @NotBlank
     private String role;
 
 
@@ -35,6 +39,10 @@ public class SignUpRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public String getRole() {

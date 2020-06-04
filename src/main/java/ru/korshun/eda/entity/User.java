@@ -27,6 +27,10 @@ public class User {
     @Column(name = "name")
     private String username;
 
+    @NotBlank
+    @Email
+    private String phone;
+
     @JsonIgnore
     @OneToOne(targetEntity = Role.class)
     @JoinColumn(name = "id_role")
@@ -39,10 +43,11 @@ public class User {
     public User() {
     }
 
-    public User(String name, String login, String password, Role role) {
+    public User(String name, String login, String password, String phone, Role role) {
         this.username = name;
         this.login = login;
         this.password = password;
+        this.phone = phone;
         this.role = role;
     }
 
@@ -57,6 +62,10 @@ public class User {
 
     public String getLogin() {
         return login;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void setPassword(String password) {

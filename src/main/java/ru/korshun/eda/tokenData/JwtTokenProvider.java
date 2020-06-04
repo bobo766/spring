@@ -12,6 +12,7 @@ import java.security.Key;
 import java.util.Date;
 import org.slf4j.Logger;
 import ru.korshun.eda.CustomUserDetails;
+import ru.korshun.eda.entity.Role;
 
 @Component
 public class JwtTokenProvider {
@@ -21,15 +22,21 @@ public class JwtTokenProvider {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
-    private int jwtExpirationInMs;
+    @Value("${app.jwtExpirationInMsForUsers}")
+    private int jwtExpirationInMsForUsers;
 
-    private int jwtUserId = 0;
+    @Value("${app.jwtExpirationInMsForOperators}")
+    private int jwtExpirationInMsForOperators;
 
-    public String generateToken(Authentication authentication) {
+
+//    private int jwtUserId = 0;
+
+    public String generateToken(Authentication authentication, Role role) {
         CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
-        Date expiryDate = new Date(new Date().getTime() + jwtExpirationInMs);
+        int epirationTime = getExpirationTimeFromRole(role);
+
+        Date expiryDate = new Date(new Date().getTime() + epirationTime);
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(jwtSecret);
@@ -51,6 +58,20 @@ public class JwtTokenProvider {
         return Integer.parseInt(claims.getSubject());
     }
 
+    private int getExpirationTimeFromRole(Role role) {
+
+        switch (role.getAuthority()) {
+
+            case Role.OPERATOR:
+                return jwtExpirationInMsForOperators;
+
+            default:
+                return jwtExpirationInMsForUsers;
+
+        }
+
+    }
+
     boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
@@ -67,11 +88,11 @@ public class JwtTokenProvider {
         return false;
     }
 
-    public int getJwtUserId() {
-        return jwtUserId;
-    }
-
-    public void setJwtUserId(int jwtUserId) {
-        this.jwtUserId = jwtUserId;
-    }
+//    public int getJwtUserId() {
+//        return jwtUserId;
+//    }
+//
+//    public void setJwtUserId(int jwtUserId) {
+//        this.jwtUserId = jwtUserId;
+//    }
 }

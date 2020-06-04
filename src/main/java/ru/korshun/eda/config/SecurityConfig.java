@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.tokenData.JwtAuthenticationEntryPoint;
 import ru.korshun.eda.tokenData.JwtAuthenticationFilter;
 import ru.korshun.eda.service.CustomUserDetailsService;
@@ -69,10 +70,8 @@ public class SecurityConfig
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/**").permitAll()
-                .and().authorizeRequests().antMatchers("/ajax/**").permitAll()
+                .and().authorizeRequests().antMatchers("/ajax/**").hasAuthority(Role.OPERATOR)
                 .and().authorizeRequests().antMatchers("/api/**").permitAll()
-//                .and()
-//                .authorizeRequests().antMatchers("/api/**").hasAuthority("Admin")
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
