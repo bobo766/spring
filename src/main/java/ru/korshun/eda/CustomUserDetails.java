@@ -14,20 +14,17 @@ public class CustomUserDetails
 
     private final String name;
 
-    private final String username;
-
-    private final String email;
+    private final String phone;
 
     private final String password;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    private CustomUserDetails(int id, String name, String login, String password,
+    private CustomUserDetails(int id, String name, String phone, String password,
                               Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
-        this.username = null;
-        this.email = login;
+        this.phone = phone;
         this.password = password;
         this.authorities = authorities;
     }
@@ -39,7 +36,7 @@ public class CustomUserDetails
         return new CustomUserDetails(
                 user.getId(),
                 user.getUsername(),
-                user.getLogin(),
+                user.getPhone(),
                 user.getPassword(),
                 authorities
         );
@@ -49,17 +46,13 @@ public class CustomUserDetails
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
+    public String getPhone() {
+        return phone;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
     @Override

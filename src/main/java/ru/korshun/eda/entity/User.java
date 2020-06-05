@@ -15,10 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
-    @Email
-    private String login;
-
     @JsonIgnore
     @NotBlank
     private String password;
@@ -43,9 +39,8 @@ public class User {
     public User() {
     }
 
-    public User(String name, String login, String password, String phone, Role role) {
+    public User(String name, String password, String phone, Role role) {
         this.username = name;
-        this.login = login;
         this.password = password;
         this.phone = phone;
         this.role = role;
@@ -58,10 +53,6 @@ public class User {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getLogin() {
-        return login;
     }
 
     public String getPhone() {

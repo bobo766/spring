@@ -25,17 +25,17 @@ public class CustomUserDetailsService
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String login)
+    public UserDetails loadUserByUsername(String phone)
             throws UsernameNotFoundException {
 
 //        System.out.println("CustomUserDetailsService loadUserByUsername");
 
 
-        User user = userRepository.findByLogin(login);
+        User user = userRepository.findByPhone(phone);
 
         if(user == null) {
-            logger.error("User not found with email {}", login);
-            throw new UsernameNotFoundException("User not found with login: " + login);
+            logger.error("User not found with email {}", phone);
+            throw new UsernameNotFoundException("User not found with phone: " + phone);
         }
 
 //        System.out.println((user.getRoles()).getAuthority());

@@ -44,7 +44,7 @@ public class AuthController {
 
 //        System.out.println("authenticateUser");
 
-        User user = userRepository.findByLogin(signInRequest.getLogin());
+        User user = userRepository.findByPhone(signInRequest.getPhone());
 
         if(user == null) {
             return new BaseResponse<>(HttpStatus.NOT_FOUND, "User not found", null);
@@ -53,10 +53,10 @@ public class AuthController {
         Functions
                 .getLogger(AuthController.class)
                 .info("Query /auth/signin with login {}, and pass {}",
-                        signInRequest.getLogin(), signInRequest.getPassword());
+                        signInRequest.getPhone(), signInRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        signInRequest.getLogin(),
+                        signInRequest.getPhone(),
                         signInRequest.getPassword()
                 )
         );
@@ -65,7 +65,7 @@ public class AuthController {
 
         Functions
                 .getLogger(AuthController.class)
-                .info("User {} login successfully", signInRequest.getLogin());
+                .info("User {} login successfully", signInRequest.getPhone());
 
         return new BaseResponse<>(HttpStatus.OK, null,
                 new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication, user.getRole()),
@@ -76,18 +76,18 @@ public class AuthController {
     @PostMapping("/signup")
     public BaseResponse<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-        if(userRepository.existsBylogin(signUpRequest.getEmail())) {
+        if(userRepository.existsByPhone(signUpRequest.getPhone())) {
             return new BaseResponse<>(HttpStatus.CONFLICT,"Email Address already in use!",null);
         }
 
         // Creating user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPassword(),
-                signUpRequest.getPhone(), new Role(signUpRequest.getRole()));
+        User user = new User(signUpRequest.getName(), signUpRequest.getPassword(), signUpRequest.getPhone(),
+                new Role(signUpRequest.getRole()));
 
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        userRepository.addUser(signUpRequest.getEmail(), user.getPassword(), signUpRequest.getName(),
-                signUpRequest.getPhone(), signUpRequest.getRole());
+        userRepository.addUser(user.getPassword(), signUpRequest.getName(), signUpRequest.getPhone(),
+                signUpRequest.getRole());
 //        userRepository.save(user);
 
         return new BaseResponse<>(HttpStatus.OK, null, null);

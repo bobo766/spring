@@ -22,6 +22,10 @@ public class Ajax {
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_gbr", referencedColumnName = "id")
+    private User gbr;
+
     public Ajax() {
     }
 
@@ -51,5 +55,9 @@ public class Ajax {
 
     public User getUser() {
         return user;
+    }
+
+    public User getGbr() {
+        return gbr;
     }
 }
