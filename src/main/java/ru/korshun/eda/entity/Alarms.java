@@ -1,10 +1,12 @@
 package ru.korshun.eda.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="coordinates_alarm")
-public class Ajax {
+public class Alarms {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +28,24 @@ public class Ajax {
     @JoinColumn(name = "id_gbr", referencedColumnName = "id")
     private User gbr;
 
-    public Ajax() {
+    @Column(name = "gps_enable")
+    private int isGpsEnable;
+
+    @Column(name = "nw_enable")
+    private int isNetworkEnable;
+
+
+    public Alarms() {
     }
 
-    public Ajax(int id, double lat, double lon, String dateTime, User user) {
+    public Alarms(int id, double lat, double lon, String dateTime, User user, int isGpsEnable, int isNetworkEnable) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.dateTime = dateTime;
         this.user = user;
+        this.isGpsEnable = isGpsEnable;
+        this.isNetworkEnable = isNetworkEnable;
     }
 
     public int getId() {
@@ -59,5 +70,13 @@ public class Ajax {
 
     public User getGbr() {
         return gbr;
+    }
+
+    public int getIsGpsEnable() {
+        return isGpsEnable;
+    }
+
+    public int getIsNetworkEnable() {
+        return isNetworkEnable;
     }
 }

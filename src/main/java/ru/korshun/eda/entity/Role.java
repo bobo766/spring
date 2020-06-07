@@ -32,7 +32,7 @@ public class Role
     public Role() {
     }
 
-    public Role(@NotBlank String role) {
+    public  Role(@NotBlank String role) {
         this.role = role;
     }
 

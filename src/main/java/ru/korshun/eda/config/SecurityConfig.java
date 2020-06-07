@@ -70,7 +70,7 @@ public class SecurityConfig
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/**").permitAll()
-                .and().authorizeRequests().antMatchers("/ajax/**").hasAuthority(Role.OPERATOR)
+                .and().authorizeRequests().antMatchers("/alarms/**").hasAnyAuthority(Role.OPERATOR, Role.GBR)
                 .and().authorizeRequests().antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

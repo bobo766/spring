@@ -3,6 +3,7 @@ package ru.korshun.eda;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
 
 import java.util.*;
@@ -30,8 +31,7 @@ public class CustomUserDetails
     }
 
     public static CustomUserDetails create(User user) {
-        List<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority((user.getRole()).getAuthority()));
+        List<GrantedAuthority> authorities = Collections.singletonList(new Role((user.getRole()).getAuthority()));
 
         return new CustomUserDetails(
                 user.getId(),

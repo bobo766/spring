@@ -68,7 +68,7 @@ public class AuthController {
                 .info("User {} login successfully", signInRequest.getPhone());
 
         return new BaseResponse<>(HttpStatus.OK, null,
-                new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication, user.getRole()),
+                new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication),
                         user.getRole().getAuthority()));
     }
 

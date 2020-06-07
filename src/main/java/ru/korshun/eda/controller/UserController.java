@@ -30,6 +30,10 @@ public class UserController {
         this.tokenProvider = tokenProvider;
     }
 
+
+
+
+
     @GetMapping("/user/{id}")
 //    @PreAuthorize("hasRole('Admin')")
     public BaseResponse<?> getUserName(@PathVariable int id) {
@@ -55,25 +59,35 @@ public class UserController {
 
     }
 
+
+
     @PutMapping("/put/location")
     public BaseResponse<?> insertLocation(@RequestBody InsertLocationRequest insertLocationRequest) {
 
 //        System.out.println("Token ID: " + tokenProvider.getJwtUserId() + ", insert ID: " + insertLocationRequest.getId());
 
-//        if(tokenProvider.getJwtUserId() != insertLocationRequest.getId()) {
-//            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
-//        }
+        if(tokenProvider.getJwtUserId() != insertLocationRequest.getId()) {
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
+        }
+
+        int isGps = insertLocationRequest.getIsGpsEnable() ? 1 : 0;
+        int isNW = insertLocationRequest.getIsNetworkEnable() ? 1 : 0;
 
         if(mInsertRepository.insertLocation(
                 insertLocationRequest.getId(),
                 insertLocationRequest.getLat(),
-                insertLocationRequest.getLon())) {
+                insertLocationRequest.getLon(),
+                isGps,
+                isNW)) {
+
             Functions
                 .getLogger(UserController.class)
                 .info("Query /put/location from {}", insertLocationRequest.getId());
 
             return new BaseResponse<>(HttpStatus.OK, null, null);
+
         }
+
         return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR,"SQL query error", null);
     }
 

@@ -34,7 +34,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private Collection<Ajax> ajax;
+    private Collection<Alarms> ajax;
 
     public User() {
     }

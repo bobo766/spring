@@ -10,6 +10,9 @@ public class InsertLocationRequest {
     @NotBlank
     private double lat, lon;
 
+    @NotBlank
+    private boolean isGpsEnable, isNetworkEnable;
+
     public int getId() {
         return id;
     }
@@ -20,5 +23,13 @@ public class InsertLocationRequest {
 
     public double getLon() {
         return lon;
+    }
+
+    public boolean getIsGpsEnable() {
+        return isGpsEnable;
+    }
+
+    public boolean getIsNetworkEnable() {
+        return isNetworkEnable;
     }
 }
