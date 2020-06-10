@@ -14,23 +14,21 @@ import java.util.List;
 @RequestMapping("/alarms")
 public class AlarmsController {
 
-    private final AlarmsRepository mAjaxRepository;
+    private final AlarmsRepository mAlarmsRepository;
     private final JwtTokenProvider tokenProvider;
 
     public AlarmsController(AlarmsRepository mAjaxRepository, JwtTokenProvider tokenProvider) {
-        this.mAjaxRepository = mAjaxRepository;
+        this.mAlarmsRepository = mAjaxRepository;
         this.tokenProvider = tokenProvider;
     }
 
     @GetMapping("/getAllAlarms")
-    private BaseResponse<?> getAlarms() {
-//        Functions
-//                .getLogger(AjaxController.class)
-//                .info("Query /ajax/alarms");
+    private BaseResponse<?> getAllAlarms() {
+
         List<Alarms> alarms;
 
         try {
-            alarms = mAjaxRepository.findAll();
+            alarms = mAlarmsRepository.findAll();
         } catch (Exception e) {
             return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
         }
@@ -38,25 +36,37 @@ public class AlarmsController {
         return new BaseResponse<>(HttpStatus.OK, null, alarms);
     }
 
-    @GetMapping("/getGbrAlarm/{id}")
-    private BaseResponse<?> getGbrAlarm(@PathVariable int id) {
-//        Functions
-//                .getLogger(AjaxController.class)
-//                .info("Query /ajax/alarms");
 
-        if(tokenProvider.getJwtUserId() != id) {
-            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
+
+    @GetMapping("/getGbr")
+    public BaseResponse<List<AlarmsRepository.Gbr>> getGbr() {
+        List<AlarmsRepository.Gbr> gbrList = mAlarmsRepository.findAllGbr();
+
+        if(gbrList != null) {
+            return new BaseResponse<>(HttpStatus.OK, null, gbrList);
         }
 
-        List<AlarmsRepository.ForGbrOnly> alarms;
+        return new BaseResponse<>(HttpStatus.NOT_FOUND,"getGbr() error", null);
 
-        try {
-            alarms = mAjaxRepository.getGbrAlarms(id);
-        } catch (Exception e) {
-            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
-        }
-
-        return new BaseResponse<>(HttpStatus.OK, null, alarms);
     }
+
+
+//    @GetMapping("/getGbrAlarm/{id}")
+//    private BaseResponse<?> getGbrAlarm(@PathVariable int id) {
+//
+//        if(tokenProvider.getJwtUserId() != id) {
+//            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
+//        }
+//
+//        List<AlarmsRepository.ForGbrOnly> alarms;
+//
+//        try {
+//            alarms = mAlarmsRepository.getGbrAlarms(id);
+//        } catch (Exception e) {
+//            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
+//        }
+//
+//        return new BaseResponse<>(HttpStatus.OK, null, alarms);
+//    }
 
 }

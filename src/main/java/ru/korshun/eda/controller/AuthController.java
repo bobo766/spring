@@ -40,20 +40,25 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public BaseResponse<?> authenticateUser(@RequestBody SignInRequest signInRequest) {
+    public BaseResponse<SignInDataResponse> authenticateUser(@RequestBody SignInRequest signInRequest) {
 
 //        System.out.println("authenticateUser");
-
-        User user = userRepository.findByPhone(signInRequest.getPhone());
-
-        if(user == null) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND, "User not found", null);
-        }
 
         Functions
                 .getLogger(AuthController.class)
                 .info("Query /auth/signin with login {}, and pass {}",
                         signInRequest.getPhone(), signInRequest.getPassword());
+
+        User user = userRepository.findByPhone(signInRequest.getPhone());
+
+        if(user == null) {
+            Functions
+                    .getLogger(AuthController.class)
+                    .info("User {} not found", signInRequest.getPhone());
+
+            return new BaseResponse<>(HttpStatus.NOT_FOUND, "User not found", null);
+        }
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signInRequest.getPhone(),
@@ -65,7 +70,7 @@ public class AuthController {
 
         Functions
                 .getLogger(AuthController.class)
-                .info("User {} login successfully", signInRequest.getPhone());
+                .info("User {} ({}) login successfully", signInRequest.getPhone(), user.getRole().getAuthority());
 
         return new BaseResponse<>(HttpStatus.OK, null,
                 new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication),
@@ -76,8 +81,16 @@ public class AuthController {
     @PostMapping("/signup")
     public BaseResponse<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
+        Functions
+                .getLogger(AuthController.class)
+                .info("Try to register {}", signUpRequest.getPhone());
+
         if(userRepository.existsByPhone(signUpRequest.getPhone())) {
-            return new BaseResponse<>(HttpStatus.CONFLICT,"Email Address already in use!",null);
+            Functions
+                    .getLogger(AuthController.class)
+                    .info("Phone {} already in use", signUpRequest.getPhone());
+
+            return new BaseResponse<>(HttpStatus.CONFLICT,"Phone already in use!",null);
         }
 
         // Creating user's account
@@ -89,6 +102,11 @@ public class AuthController {
         userRepository.addUser(user.getPassword(), signUpRequest.getName(), signUpRequest.getPhone(),
                 signUpRequest.getRole());
 //        userRepository.save(user);
+
+        Functions
+                .getLogger(AuthController.class)
+                .info("{} register successfully", signUpRequest.getPhone());
+
 
         return new BaseResponse<>(HttpStatus.OK, null, null);
 

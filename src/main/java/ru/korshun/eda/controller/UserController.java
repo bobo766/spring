@@ -32,8 +32,6 @@ public class UserController {
 
 
 
-
-
     @GetMapping("/user/{id}")
 //    @PreAuthorize("hasRole('Admin')")
     public BaseResponse<?> getUserName(@PathVariable int id) {
@@ -67,6 +65,10 @@ public class UserController {
 //        System.out.println("Token ID: " + tokenProvider.getJwtUserId() + ", insert ID: " + insertLocationRequest.getId());
 
         if(tokenProvider.getJwtUserId() != insertLocationRequest.getId()) {
+            Functions
+                    .getLogger(UserController.class)
+                    .info("Query /put/location from {} failed: Wrong data", insertLocationRequest.getId());
+
             return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
         }
 
@@ -82,13 +84,13 @@ public class UserController {
 
             Functions
                 .getLogger(UserController.class)
-                .info("Query /put/location from {}", insertLocationRequest.getId());
+                .info("Query /put/location from {} success", insertLocationRequest.getId());
 
             return new BaseResponse<>(HttpStatus.OK, null, null);
 
         }
 
-        return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR,"SQL query error", null);
+        return new BaseResponse<>(HttpStatus.BAD_REQUEST,"SQL query error", null);
     }
 
 }

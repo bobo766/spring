@@ -4,10 +4,10 @@ import io.jsonwebtoken.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
@@ -19,6 +19,8 @@ import ru.korshun.eda.entity.Role;
 public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+
+    public static final String TOKEN_ERROR_TAG = "expired";
 
     @Value("${app.jwtSecret}")
     private String jwtSecret;
@@ -66,32 +68,36 @@ public class JwtTokenProvider {
         switch (role.getAuthority()) {
 
             case Role.OPERATOR:
-                System.out.println("expirationTime: " + Role.OPERATOR);
+//                System.out.println("expirationTime: " + Role.OPERATOR);
                 return jwtExpirationInMsForOperators;
 
             case Role.GBR:
-                System.out.println("expirationTime: " + Role.GBR);
+//                System.out.println("expirationTime: " + Role.GBR);
                 return jwtExpirationInMsForGBR;
 
             default:
-                System.out.println("expirationTime: " + Role.USER);
+//                System.out.println("expirationTime: " + Role.USER);
                 return jwtExpirationInMsForUsers;
 
         }
 
     }
 
-    boolean validateToken(String authToken) {
+    boolean validateToken(String authToken, HttpServletRequest request) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException ex) {
+            request.setAttribute(TOKEN_ERROR_TAG, "Invalid JWT token");
             logger.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
+            request.setAttribute(TOKEN_ERROR_TAG, "Expired JWT token");
             logger.error("Expired JWT token");
         } catch (UnsupportedJwtException ex) {
+            request.setAttribute(TOKEN_ERROR_TAG, "Unsupported JWT token");
             logger.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
+            request.setAttribute(TOKEN_ERROR_TAG, "JWT claims string is empty.");
             logger.error("JWT claims string is empty.");
         }
         return false;

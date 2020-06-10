@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter
 
             String jwt = getJwtFromRequest(request);
 
-            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt, request)) {
 
                 int userId = tokenProvider.getUserIdFromJWT(jwt);
                 tokenProvider.setJwtUserId(userId);

@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name="coordinates_alarm")
+@Table(name="location_alarm")
 public class Alarms {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private double lat;
 
-    @Column(name = "long")
     private double lon;
 
-    @Column(name = "datetime")
+    @Column(name = "date_time")
     private String dateTime;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -25,6 +25,7 @@ public class Alarms {
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name = "id_gbr", referencedColumnName = "id")
     private User gbr;
 

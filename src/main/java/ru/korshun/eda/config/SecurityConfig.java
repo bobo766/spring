@@ -71,7 +71,7 @@ public class SecurityConfig
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/**").permitAll()
                 .and().authorizeRequests().antMatchers("/alarms/**").hasAnyAuthority(Role.OPERATOR, Role.GBR)
-                .and().authorizeRequests().antMatchers("/api/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/**").hasAuthority(Role.USER)
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

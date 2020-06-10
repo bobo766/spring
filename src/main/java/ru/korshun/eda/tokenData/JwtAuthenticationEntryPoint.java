@@ -21,13 +21,27 @@ public class JwtAuthenticationEntryPoint
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException {
 
+        final String expired = (String) httpServletRequest.getAttribute(JwtTokenProvider.TOKEN_ERROR_TAG);
+        ObjectMapper mapper = new ObjectMapper();
+        String responseMsg, error;
+
+        if(expired != null) {
+            error = expired;
+            responseMsg = mapper.writeValueAsString(
+                    new BaseResponse<>(HttpStatus.NOT_ACCEPTABLE, error, null));
+        }
+
+        else {
+            error = e.getMessage();
+            responseMsg = mapper.writeValueAsString(
+                    new BaseResponse<>(HttpStatus.UNAUTHORIZED, error, null));
+        }
+
         Functions
                 .getLogger(JwtAuthenticationEntryPoint.class)
-                .error("Authorization error. Message - {}", e.getMessage());
+                .error("Authorization error. Message - {}", error);
 
-        ObjectMapper mapper = new ObjectMapper();
-        String responseMsg = mapper.writeValueAsString(
-                new BaseResponse<>(HttpStatus.UNAUTHORIZED, e.getMessage(), null));
+//        httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
         httpServletResponse.getWriter().write(responseMsg);
 
     }
