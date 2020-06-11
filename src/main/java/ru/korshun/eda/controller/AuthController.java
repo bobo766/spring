@@ -1,5 +1,7 @@
 package ru.korshun.eda.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,8 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     final AuthenticationManager authenticationManager;
     final UserRepository userRepository;
     final PasswordEncoder passwordEncoder;
@@ -44,17 +48,21 @@ public class AuthController {
 
 //        System.out.println("authenticateUser");
 
-        Functions
-                .getLogger(AuthController.class)
-                .info("Query /auth/signin with login {}, and pass {}",
+//        Functions
+//                .getLogger(AuthController.class)
+//                .info("Query /auth/signin with login {}, and pass {}",
+//                        signInRequest.getPhone(), signInRequest.getPassword());
+        logger.error("Query /auth/signin with login {}, and pass {}",
                         signInRequest.getPhone(), signInRequest.getPassword());
 
         User user = userRepository.findByPhone(signInRequest.getPhone());
 
         if(user == null) {
-            Functions
-                    .getLogger(AuthController.class)
-                    .info("User {} not found", signInRequest.getPhone());
+//            Functions
+//                    .getLogger(AuthController.class)
+//                    .info("User {} not found", signInRequest.getPhone());
+
+            logger.error("User {} not found", signInRequest.getPhone());
 
             return new BaseResponse<>(HttpStatus.NOT_FOUND, "User not found", null);
         }
@@ -68,9 +76,11 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Functions
-                .getLogger(AuthController.class)
-                .info("User {} ({}) login successfully", signInRequest.getPhone(), user.getRole().getAuthority());
+//        Functions
+//                .getLogger(AuthController.class)
+//                .info("User {} ({}) login successfully", signInRequest.getPhone(), user.getRole().getAuthority());
+
+        logger.info("User {} ({}) login successfully", signInRequest.getPhone(), user.getRole().getAuthority());
 
         return new BaseResponse<>(HttpStatus.OK, null,
                 new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication),
@@ -81,14 +91,16 @@ public class AuthController {
     @PostMapping("/signup")
     public BaseResponse<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-        Functions
-                .getLogger(AuthController.class)
-                .info("Try to register {}", signUpRequest.getPhone());
+//        Functions
+//                .getLogger(AuthController.class)
+//                .info("Try to register {}", signUpRequest.getPhone());
+        logger.info("Try to register {}", signUpRequest.getPhone());
 
         if(userRepository.existsByPhone(signUpRequest.getPhone())) {
-            Functions
-                    .getLogger(AuthController.class)
-                    .info("Phone {} already in use", signUpRequest.getPhone());
+//            Functions
+//                    .getLogger(AuthController.class)
+//                    .info("Phone {} already in use", signUpRequest.getPhone());
+            logger.error("Phone {} already in use", signUpRequest.getPhone());
 
             return new BaseResponse<>(HttpStatus.CONFLICT,"Phone already in use!",null);
         }
@@ -103,9 +115,10 @@ public class AuthController {
                 signUpRequest.getRole());
 //        userRepository.save(user);
 
-        Functions
-                .getLogger(AuthController.class)
-                .info("{} register successfully", signUpRequest.getPhone());
+//        Functions
+//                .getLogger(AuthController.class)
+//                .info("{} register successfully", signUpRequest.getPhone());
+        logger.info("{} register successfully", signUpRequest.getPhone());
 
 
         return new BaseResponse<>(HttpStatus.OK, null, null);

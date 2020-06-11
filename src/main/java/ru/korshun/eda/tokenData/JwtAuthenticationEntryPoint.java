@@ -1,10 +1,13 @@
 package ru.korshun.eda.tokenData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import ru.korshun.eda.controller.UserController;
 import ru.korshun.eda.response.BaseResponse;
 import ru.korshun.eda.utils.Functions;
 
@@ -15,6 +18,8 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationEntryPoint
         implements AuthenticationEntryPoint {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
 
     @Override
     public void commence(HttpServletRequest httpServletRequest,
@@ -37,9 +42,10 @@ public class JwtAuthenticationEntryPoint
                     new BaseResponse<>(HttpStatus.UNAUTHORIZED, error, null));
         }
 
-        Functions
-                .getLogger(JwtAuthenticationEntryPoint.class)
-                .error("Authorization error. Message - {}", error);
+        logger.error("Authorization error. Message - {}", error);
+//        Functions
+//                .getLogger(JwtAuthenticationEntryPoint.class)
+//                .error("Authorization error. Message - {}", error);
 
 //        httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
         httpServletResponse.getWriter().write(responseMsg);
