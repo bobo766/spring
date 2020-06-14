@@ -38,6 +38,7 @@ public class AlarmsController {
 
 
 
+
     @GetMapping("/getGbr")
     public BaseResponse<List<AlarmsRepository.Gbr>> getGbr() {
         List<AlarmsRepository.Gbr> gbrList = mAlarmsRepository.findAllGbr();
