@@ -28,7 +28,7 @@ public class AlarmsController {
         List<Alarms> alarms;
 
         try {
-            alarms = mAlarmsRepository.findAll();
+            alarms = mAlarmsRepository.getAllAlarms();
         } catch (Exception e) {
             return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
         }
@@ -47,6 +47,21 @@ public class AlarmsController {
         }
 
         return new BaseResponse<>(HttpStatus.NOT_FOUND,"getGbr() error", null);
+
+    }
+
+
+
+    @GetMapping("/finishAlarm/{idUser}/{idGbr}")
+    public BaseResponse<Void> finishAlarm(@PathVariable int idUser, @PathVariable int idGbr) {
+
+        try {
+            mAlarmsRepository.finishAlarm(idUser, idGbr);
+            return new BaseResponse<>(HttpStatus.OK, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "Wrong data", null);
+        }
 
     }
 
