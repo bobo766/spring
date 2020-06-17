@@ -23,7 +23,7 @@ public class AlarmsController {
     }
 
     @GetMapping("/getAllAlarms")
-    private BaseResponse<?> getAllAlarms() {
+    private BaseResponse<List<Alarms>> getAllAlarms() {
 
         List<Alarms> alarms;
 

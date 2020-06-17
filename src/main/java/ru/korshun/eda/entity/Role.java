@@ -32,17 +32,14 @@ public class Role
     public Role() {
     }
 
-    public  Role(@NotBlank String role) {
+    public Role(int id, @NotBlank String role) {
+        this.id = id;
         this.role = role;
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public Collection<User> getUsers() {
-//        return users;
-//    }
+    public Role(@NotBlank String role) {
+        this.role = role;
+    }
 
     @Override
     public String getAuthority() {

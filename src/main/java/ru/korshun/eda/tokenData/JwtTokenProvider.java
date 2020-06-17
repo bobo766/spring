@@ -34,6 +34,9 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMsForGBR}")
     private int jwtExpirationInMsForGBR;
 
+    @Value("${app.jwtExpirationInMsForAdmin}")
+    private int jwtExpirationInMsForAdmin;
+
     private int jwtUserId = 0;
 
     public String generateToken(Authentication authentication) {
@@ -74,6 +77,10 @@ public class JwtTokenProvider {
             case Role.GBR:
 //                System.out.println("expirationTime: " + Role.GBR);
                 return jwtExpirationInMsForGBR;
+
+            case Role.ADMIN:
+//                System.out.println("expirationTime: " + Role.GBR);
+                return jwtExpirationInMsForAdmin;
 
             default:
 //                System.out.println("expirationTime: " + Role.USER);

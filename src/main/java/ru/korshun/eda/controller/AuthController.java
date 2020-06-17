@@ -8,10 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.UserRepository;
@@ -22,8 +19,10 @@ import ru.korshun.eda.response.data.SignInDataResponse;
 import ru.korshun.eda.tokenData.JwtTokenProvider;
 import ru.korshun.eda.utils.Functions;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -32,14 +31,14 @@ public class AuthController {
 
     final AuthenticationManager authenticationManager;
     final UserRepository userRepository;
-    final PasswordEncoder passwordEncoder;
+//    final PasswordEncoder passwordEncoder;
     final JwtTokenProvider tokenProvider;
 
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                          PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider) {
+                          JwtTokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
     }
 
@@ -88,42 +87,42 @@ public class AuthController {
     }
 
 
-    @PostMapping("/signup")
-    public BaseResponse<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-//        Functions
-//                .getLogger(AuthController.class)
-//                .info("Try to register {}", signUpRequest.getPhone());
-        logger.info("Try to register {}", signUpRequest.getPhone());
-
-        if(userRepository.existsByPhone(signUpRequest.getPhone())) {
-//            Functions
-//                    .getLogger(AuthController.class)
-//                    .info("Phone {} already in use", signUpRequest.getPhone());
-            logger.error("Phone {} already in use", signUpRequest.getPhone());
-
-            return new BaseResponse<>(HttpStatus.CONFLICT,"Phone already in use!",null);
-        }
-
-        // Creating user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getPassword(), signUpRequest.getPhone(),
-                new Role(signUpRequest.getRole()));
-
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-
-        userRepository.addUser(user.getPassword(), signUpRequest.getName(), signUpRequest.getPhone(),
-                signUpRequest.getRole());
-//        userRepository.save(user);
-
-//        Functions
-//                .getLogger(AuthController.class)
-//                .info("{} register successfully", signUpRequest.getPhone());
-        logger.info("{} register successfully", signUpRequest.getPhone());
-
-
-        return new BaseResponse<>(HttpStatus.OK, null, null);
-
-    }
+//    @PostMapping("/signup")
+//    public BaseResponse<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+//
+////        Functions
+////                .getLogger(AuthController.class)
+////                .info("Try to register {}", signUpRequest.getPhone());
+//        logger.info("Try to register {}", signUpRequest.getPhone());
+//
+//        if(userRepository.existsByPhone(signUpRequest.getPhone())) {
+////            Functions
+////                    .getLogger(AuthController.class)
+////                    .info("Phone {} already in use", signUpRequest.getPhone());
+//            logger.error("Phone {} already in use", signUpRequest.getPhone());
+//
+//            return new BaseResponse<>(HttpStatus.CONFLICT,"Phone already in use!",null);
+//        }
+//
+//        // Creating user's account
+//        User user = new User(signUpRequest.getName(), signUpRequest.getPassword(), signUpRequest.getPhone(),
+//                new Role(signUpRequest.getRole()));
+//
+//        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+//
+//        userRepository.addUser(user.getPassword(), signUpRequest.getName(), signUpRequest.getPhone(),
+//                signUpRequest.getRole());
+////        userRepository.save(user);
+//
+////        Functions
+////                .getLogger(AuthController.class)
+////                .info("{} register successfully", signUpRequest.getPhone());
+//        logger.info("{} register successfully", signUpRequest.getPhone());
+//
+//
+//        return new BaseResponse<>(HttpStatus.OK, null, null);
+//
+//    }
 
 
 }

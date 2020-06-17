@@ -13,6 +13,7 @@ import ru.korshun.eda.service.CustomUserDetailsService;
 import ru.korshun.eda.tokenData.JwtTokenProvider;
 import ru.korshun.eda.utils.Functions;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -36,30 +37,30 @@ public class UserController {
 
 
 
-    @GetMapping("/user/{id}")
-//    @PreAuthorize("hasRole('Admin')")
-    public BaseResponse<?> getUserName(@PathVariable int id) {
-        User user = mUserRepository.findById(id);
-
-        if(user != null) {
-
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            System.out.println(auth.getAuthorities());
-
-//            UserDetails userDetails = mCustomUserDetailsService.loadUserById(id);
+//    @GetMapping("/user/{id}")
+////    @PreAuthorize("hasRole('Admin')")
+//    public BaseResponse<?> getUserName(@PathVariable int id) {
+//        User user = mUserRepository.findById(id);
 //
-//            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+//        if(user != null) {
 //
-//            for(GrantedAuthority role : auth.getAuthorities()) {
-//                System.out.println(role.getAuthority());
-//            }
-
-            return new BaseResponse<>(HttpStatus.OK, null, user);
-        }
-
-        return new BaseResponse<>(HttpStatus.NOT_FOUND,"User not found", null);
-
-    }
+////            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+////            System.out.println(auth.getAuthorities());
+//
+////            UserDetails userDetails = mCustomUserDetailsService.loadUserById(id);
+////
+////            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+////
+////            for(GrantedAuthority role : auth.getAuthorities()) {
+////                System.out.println(role.getAuthority());
+////            }
+//
+//            return new BaseResponse<>(HttpStatus.OK, null, user);
+//        }
+//
+//        return new BaseResponse<>(HttpStatus.NOT_FOUND,"User not found", null);
+//
+//    }
 
 
 
