@@ -7,20 +7,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.UserRepository;
 import ru.korshun.eda.requests.SignInRequest;
-import ru.korshun.eda.requests.SignUpRequest;
 import ru.korshun.eda.response.BaseResponse;
-import ru.korshun.eda.response.data.SignInDataResponse;
+import ru.korshun.eda.response.data.UserDataResponse;
 import ru.korshun.eda.tokenData.JwtTokenProvider;
-import ru.korshun.eda.utils.Functions;
-
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
 
 @CrossOrigin("*")
 @RestController
@@ -43,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public BaseResponse<SignInDataResponse> authenticateUser(@RequestBody SignInRequest signInRequest) {
+    public BaseResponse<UserDataResponse> authenticateUser(@RequestBody SignInRequest signInRequest) {
 
 //        System.out.println("authenticateUser");
 
@@ -82,8 +75,8 @@ public class AuthController {
         logger.info("User {} ({}) login successfully", signInRequest.getPhone(), user.getRole().getAuthority());
 
         return new BaseResponse<>(HttpStatus.OK, null,
-                new SignInDataResponse(user.getId(), tokenProvider.generateToken(authentication),
-                        user.getRole().getAuthority()));
+                new UserDataResponse(user.getId(), tokenProvider.generateToken(authentication),
+                        user.getRole().getAuthority(), user.getUsername()));
     }
 
 

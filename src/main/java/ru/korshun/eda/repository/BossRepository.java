@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
+import ru.korshun.eda.response.data.UserDataResponse;
 
 import java.util.List;
 
@@ -15,7 +16,12 @@ public interface BossRepository
     extends JpaRepository<User, Integer> {
 
     Boolean existsByPhone(String phone);
-    List<User> findAll();
+
+    @Query(value = "SELECT users.id, users.name, users.phone, roles.role FROM users " +
+                    "LEFT JOIN roles ON roles.id = users.id_role " +
+                    "ORDER BY users.id_role ASC, users.name ASC;",
+            nativeQuery = true)
+    List<Users> findAllUsers();
 
     @Query(value = "SELECT * FROM roles WHERE role NOT LIKE '" + Role.ADMIN + "' " +
             "AND role NOT LIKE '" + Role.OPERATOR + "';",
@@ -34,4 +40,12 @@ public interface BossRepository
         int getId();
         String getRole();
     }
+
+    interface Users {
+        int getId();
+        String getName();
+        String getPhone();
+        String getRole();
+    }
+
 }

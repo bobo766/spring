@@ -70,7 +70,6 @@ public class SecurityConfig
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/signin").permitAll()
-                .and().authorizeRequests().antMatchers("/auth/signup").hasAuthority(Role.ADMIN)
                 .and().authorizeRequests().antMatchers("/boss/**").hasAuthority(Role.ADMIN)
                 .and().authorizeRequests().antMatchers("/alarms/**").hasAnyAuthority(Role.OPERATOR, Role.GBR)
                 .and().authorizeRequests().antMatchers("/api/**").hasAuthority(Role.USER)

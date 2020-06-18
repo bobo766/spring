@@ -3,16 +3,18 @@ package ru.korshun.eda.response.data;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SignInDataResponse {
+public class UserDataResponse {
 
     private int id;
     private String token;
     private String role;
+    private String name;
 
-    public SignInDataResponse(int id, String token, String role) {
+    public UserDataResponse(int id, String token, String role, String name) {
         this.id = id;
         this.token = token;
         this.role = role;
+        this.name = name;
     }
 
     public int getId() {
@@ -21,6 +23,10 @@ public class SignInDataResponse {
 
     public String getToken() {
         return token;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getRole() {
