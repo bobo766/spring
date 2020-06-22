@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.korshun.eda.entity.Role;
 import ru.korshun.eda.entity.User;
-import ru.korshun.eda.response.data.UserDataResponse;
 
 import java.util.List;
 

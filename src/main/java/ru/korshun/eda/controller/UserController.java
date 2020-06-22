@@ -4,14 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.korshun.eda.entity.User;
 import ru.korshun.eda.repository.InsertRepository;
-import ru.korshun.eda.repository.UserRepository;
 import ru.korshun.eda.requests.InsertLocationRequest;
 import ru.korshun.eda.response.BaseResponse;
 import ru.korshun.eda.service.CustomUserDetailsService;
 import ru.korshun.eda.tokenData.JwtTokenProvider;
-import ru.korshun.eda.utils.Functions;
 
 @CrossOrigin("*")
 @RestController
@@ -20,16 +17,16 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private final UserRepository mUserRepository;
+//    private final UserRepository mUserRepository;
     private final InsertRepository mInsertRepository;
     private final JwtTokenProvider tokenProvider;
 
 
     final CustomUserDetailsService mCustomUserDetailsService;
 
-    public UserController(UserRepository mUserRepository, InsertRepository insertRepository,
-                          CustomUserDetailsService customUserDetailsService, JwtTokenProvider tokenProvider) {
-        this.mUserRepository = mUserRepository;
+    public UserController(InsertRepository insertRepository, CustomUserDetailsService customUserDetailsService,
+                          JwtTokenProvider tokenProvider) {
+//        this.mUserRepository = mUserRepository;
         this.mInsertRepository = insertRepository;
         this.mCustomUserDetailsService = customUserDetailsService;
         this.tokenProvider = tokenProvider;
